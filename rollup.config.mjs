@@ -1,6 +1,7 @@
 import esbuild from 'rollup-plugin-esbuild';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import run from '@rollup/plugin-run';
 import { babel } from '@rollup/plugin-babel';
 
 //
@@ -12,6 +13,15 @@ export default {
     dir: './dist',
     format: 'es',
     sourcemap: false,
+    manualChunks(id) {
+      if (id.includes('node_modules')) {
+        return 'vendor';
+      }
+      return 'index';
+    },
+    entryFileNames: `[name].js`,
+    chunkFileNames: `[name].js`,
+    assetFileNames: `[name].[ext]`,
   },
   watch: {
     clearScreen: false,
@@ -38,5 +48,6 @@ export default {
     }),
     commonjs(),
     nodeResolve({ jsnext: true }),
+    run({ allowRestarts: true }),
   ],
 };
