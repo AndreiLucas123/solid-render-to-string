@@ -36,18 +36,11 @@ export default {
       extensions: ['.tsx'],
       babelHelpers: 'bundled',
 
-      presets: [
-        [
-          'solid',
-          {
-            generate: 'ssr',
-            hydratable: true,
-          },
-        ],
-      ],
+      presets: [['solid', { generate: 'ssr', hydratable: true }]],
     }),
     commonjs(),
-    nodeResolve({ jsnext: true }),
+    nodeResolve({ preferBuiltins: true, exportConditions: ["solid", "node"] }),
+    // nodeResolve({ jsnext: true }),
     run({ allowRestarts: true }),
   ],
 };
